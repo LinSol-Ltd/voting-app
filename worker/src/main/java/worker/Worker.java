@@ -68,14 +68,14 @@ class Worker {
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://votedb/votedb";
+      String url = "jdbc:postgresql://" + host + "/votedb";
 
       while (conn == null) {
         try {
           conn = DriverManager.getConnection(url, "postgres", "postgres");
         } catch (SQLException e) {
           System.err.println("Waiting for db");
-          sleep(1000);
+          sleep(10);
         }
       }
 
