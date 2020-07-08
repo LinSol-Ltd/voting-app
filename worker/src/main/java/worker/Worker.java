@@ -68,7 +68,7 @@ class Worker {
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host + "/votedb";
+      String url = "jdbc:postgresql://votedb/votedb";
 
       while (conn == null) {
         try {
