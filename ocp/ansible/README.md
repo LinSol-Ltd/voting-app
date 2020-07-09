@@ -40,7 +40,7 @@ explained.
 
 ## OpenShift (OCP)
 
-* **api_url**: OCP API address 'https://api.pro-eu-west-1.openshift.com'
+* **api_url**: OCP API address 'https://api.lab.linsol.local:6443'
 * **api_key**: Token to use for authenticating to OCP
 
 
