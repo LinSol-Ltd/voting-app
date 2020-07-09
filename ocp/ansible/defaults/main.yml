@@ -1,0 +1,7 @@
+---
+
+app: voting
+prod_namespace: voting-prod
+staging_namespace: voting-staging
+
+manage_projects: false

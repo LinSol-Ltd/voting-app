@@ -1,0 +1,9 @@
+---
+
+prod_namespace: voting-prod
+staging_namespace: voting-staging
+dev_namespace: voting-dev
+
+app: voting
+
+state: present
