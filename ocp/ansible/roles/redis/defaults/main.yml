@@ -1,0 +1,7 @@
+---
+
+state: present
+app: redis
+db_size: '1Gi'
+db_image: 'redis:5'
+db_memory_limit: "1Gi"
