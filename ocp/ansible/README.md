@@ -81,9 +81,8 @@ Labels are applied to all created resources:
   Note: This is a list, as we do have several domains for app.
 * **app_google_analytics_code**: "{{ vaut_app_google_analytics_code }}"
 * **ws_api_url**: "https://{{ api_fqdn }}"
-* **ws_app_url**: 'https://app-staging.fevermap.net'
+* **ws_app_url**: 'https://app-staging.linsol.co.uk'
 * **app_replicas**: How many instances of APP you need?
-* **apm_monitoring_js**: vault_apm_monitoring_js
 * **app_image**: Which image to use for APP? In production we fix this to
 * **app_memory_limit**: Pod memory limit
 
