@@ -49,7 +49,7 @@ explained.
 Labels are applied to all created resources:
 
 * **env**: e.g. dev, staging, production
-* **app**: Used for "app=" label, will become e.g. app=fevermap
+* **app**: Used for "app=" label, will become e.g. app=voting
 
 ## Project
 
@@ -62,6 +62,10 @@ Labels are applied to all created resources:
 * **quay_push_passwd**: Credentials for pushing images to Quay.io.
 * **quay_push_user**: Credentials for pushing images to Quay.io.
 
+## Redis
+
+* **REDIS_PASSWORD**: Redis Password
+
 ## Database
 
 * **db_name**: Database name to be created within MariaDB
@@ -69,19 +73,6 @@ Labels are applied to all created resources:
 * **db_password**: Database credentials
 * **db_root_password**: Database credentials for root
 * **db_memory_limit**: Pod memory limit
-
-## API
-
-* **api_build**: true/false whether to build API. E.g. false in production.
-* **api_source_repository_ref**: Branch/Tag you want to build, e.g. 'master'
-* **api_source_repository_url**: From which git to build from.
-* **api_replicas**: How many instances of API you need?
-* **api_image**: Which image to use for API? In production we fix this to
-  staging:release.
-* **api_fqdn**: Public FQDN for your API. This will be set with SSL certs too.
-* **api_gitlab_webhook_secret_key**: Gitlab starts pipelines by sending webhook.
-  This is the secret that is required for webhook.
-* **api_memory_limit**: Pod memory limit
 
 ## APP
 
@@ -96,17 +87,6 @@ Labels are applied to all created resources:
 * **app_image**: Which image to use for APP? In production we fix this to
 * **app_memory_limit**: Pod memory limit
 
-## Push-API
-
-* **push_api_firebase_account**: vault_push_api_firebase_account
-* **push_api_fqdn**: Public FQDN for your Push-API. This will be set with SSL
-  certs too.
-* **push_api_replicas**: How many instances of Push-API you need? We use it
-  only in prod ATM, so zero elsewhere.
-* **push_api_build**: true/false whether to build Push-API. E.g. false in
-  production.
-* **push_api_image**: Which image to use for Push-API? In production we fix this to
-* **push_api_memory_limit**: Pod memory limit
 
 ## Certbot
 
