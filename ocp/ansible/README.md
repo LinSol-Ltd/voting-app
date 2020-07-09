@@ -1,14 +1,10 @@
-# Fevermap OpenShift Ansibles
+# Voting OpenShift Ansibles
 
-This directory contains automation for running Fevermap in OpenShift.
-
-See [Fevermap OCP README](
-  https://gitlab.com/fevermap/fevermap/-/blob/master/ocp/README.md)
-for further info.
+This directory contains automation for running Voting in OpenShift.
 
 # Pre-requisites
 
-In order to run ```fevermap.yml``` playbook you need to add service account
+In order to run ```voting.yml``` playbook you need to add service account
 into OCP:
 
 ```
@@ -25,13 +21,13 @@ You also need to have the variables set for the site. They live in group_vars
 For staging:
 
 ```
-ansible-playbook -i staging fevermap.yml
+ansible-playbook -i staging voting.yml
 ```
 
 For production:
 
 ```
-ansible-playbook -i production fevermap.yml
+ansible-playbook -i production voting.yml
 ```
 
 # Variables explained
