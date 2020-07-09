@@ -1,0 +1,146 @@
+---
+
+- name: Define persistent storage for database
+  tags: redis
+  k8s:
+    state: "{{ state }}"
+    definition:
+      - apiVersion: v1
+        kind: PersistentVolumeClaim
+        metadata:
+          labels:
+            app: "{{ app }}"
+          finalizers:
+            - kubernetes.io/pvc-protection
+          name: "{{ app }}-redis-storage"
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: "{{ db_size }}"
+
+- name: Define deployment config for database
+  tags: redis
+  k8s:
+    state: "{{ state }}"
+    definition:
+      - apiVersion: apps.openshift.io/v1
+        kind: DeploymentConfig
+        metadata:
+          annotations:
+            template.alpha.openshift.io/wait-for-ready: "true"
+          creationTimestamp: null
+          generation: 1
+          labels:
+            app.kubernetes.io/component: database
+            app.kubernetes.io/instance: "{{ app }}-redis"
+            app.kubernetes.io/name: redis
+            app.kubernetes.io/part-of: "{{ app }}"
+            app.openshift.io/runtime: redis
+            app: "{{ app }}"
+          name: "{{ app }}-redis"
+        spec:
+          replicas: 1
+          revisionHistoryLimit: 5
+          selector:
+            deploymentconfig: "{{ app }}-redis"
+          strategy:
+            activeDeadlineSeconds: 21600
+            recreateParams:
+              timeoutSeconds: 600
+            type: Recreate
+          template:
+            metadata:
+              creationTimestamp: null
+              name: "{{ app }}-redis"
+              labels:
+                deploymentconfig: "{{ app }}-redis"
+            spec:
+              containers:
+                - env:
+                    - name: REDIS_PASSWORD
+                      value: redis_password
+                  image: openshift/redis@5
+                  imagePullPolicy: IfNotPresent
+                  livenessProbe:
+                    failureThreshold: 3
+                    initialDelaySeconds: 30
+                    periodSeconds: 10
+                    successThreshold: 1
+                    tcpSocket:
+                      port: 6379
+                    timeoutSeconds: 1
+                  name: redis
+                  ports:
+                    - containerPort: 6379
+                      protocol: TCP
+                  readinessProbe:
+                    exec:
+                      command:
+                        - /bin/sh
+                        - -i
+                        - -c
+                        - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
+                    failureThreshold: 3
+                    initialDelaySeconds: 5
+                    periodSeconds: 10
+                    successThreshold: 1
+                    timeoutSeconds: 1
+                  resources:
+                    limits:
+                      memory: "{{ db_memory_limit }}"
+                  terminationMessagePath: /dev/termination-log
+                  terminationMessagePolicy: File
+                  volumeMounts:
+                    - mountPath: /var/lib/redis/data
+                      name: "{{ app }}-data"
+              dnsPolicy: ClusterFirst
+              restartPolicy: Always
+              schedulerName: default-scheduler
+              terminationGracePeriodSeconds: 30
+              volumes:
+                - name: "{{ app }}-data"
+                  persistentVolumeClaim:
+                    claimName: "{{ app }}-redis-storage"
+          test: false
+          triggers:
+            - imageChangeParams:
+                automatic: true
+                containerNames:
+                  - redis
+                from:
+                  kind: ImageStreamTag
+                  name: "{{ db_image }}"
+                  namespace: openshift
+              type: ImageChange
+            - type: ConfigChange
+
+- name: Define service for database
+  tags: redis
+  k8s:
+    state: "{{ state }}"
+    definition:
+      - apiVersion: v1
+        kind: Service
+        metadata:
+          annotations:
+            template.openshift.io/expose-uri: >-
+              redis://{.spec.clusterIP}:{.spec.ports[?(.name=="redis")].port}
+          labels:
+            app.kubernetes.io/component: "{{ app }}-redis"
+            app.kubernetes.io/instance: "{{ app }}-redis"
+            app.kubernetes.io/name: "{{ app }}-redis"
+            app.kubernetes.io/part-of: "{{ app }}"
+            app: "{{ app }}"
+          name: "{{ app }}-redis"
+        spec:
+          ports:
+            - name: redis
+              port: 6379
+              protocol: TCP
+              targetPort: 6379
+          selector:
+            deploymentconfig: "{{ app }}-redis"
+          sessionAffinity: None
+          type: ClusterIP
