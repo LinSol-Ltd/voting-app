@@ -34,12 +34,12 @@ quay_push_user: 'we_dont_want_to_push_from_dev'
 #
 # API
 #
-#api_build: true
-#api_source_repository_ref: 'master'
-#api_source_repository_url: 'https://gitlab.com/voting/voting.git'
-#api_replicas: 1
-#api_image: "{{ app }}-api:latest"
-#api_fqdn: 'api-dev.voting.net'
+vote_build: true
+vote_source_repository_ref: 'master'
+vote_source_repository_url: 'https://gitlab.com/voting/voting.git'
+vote_replicas: 1
+vote_image: "{{ app }}-vote:latest"
+vote_fqdn: 'api-dev.voting.net'
 #api_gitlab_webhook_secret_key: "{{ vault_api_gitlab_webhook_secret_key }}"
 
 #
