@@ -80,15 +80,19 @@
           output:
             to:
               kind: ImageStreamTag
-              name: "{{ app }}-app:latest"
+              name: "{{ app }}-vote:latest"
           successfulBuildsHistoryLimit: 5
           failedBuildsHistoryLimit: 5
           strategy:
             type: Source
             sourceStrategy:
+              env:
+              - name: REDIS_PASSWORD
+              value: redis_password
               from:
                 kind: ImageStreamTag
                 name: python:2.7
+                namespace: openshift
               pullSecret:
                 name: registry-redhat-io-secret
           source:
