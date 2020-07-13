@@ -230,7 +230,7 @@
         spec:
           host: "{{ vote_fqdn }}"
           port:
-            targetPort: 9000-tcp
+            targetPort: 8080-tcp
           to:
             kind: Service
             name: "{{ app }}-vote"

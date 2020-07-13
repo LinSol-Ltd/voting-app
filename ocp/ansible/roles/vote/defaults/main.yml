@@ -1,17 +1,17 @@
 ---
 state: present
 app: vote
-api_build_image: 'python'
-api_python_version: '2.7'
-api_source_repository_ref: 'master'
-api_source_repository_url: 'https://github.com/LinSol-Ltd/voting-app.git'
-api_gitlab_webhook_secret: 'glsecret'
-api_replicas: 1
-api_image: "{{ app }}-vote"
-api_image_tag: latest
-api_fqdn: vote.linsol.co.uk
-api_build: true
-api_hpa_min_replicas: 1
-api_hpa_max_replicas: 6
-api_hpa_target_cpu_utilization_percentage: 50
-api_memory_limit: "256Mi"
+vote_build_image: 'python'
+vote_python_version: '2.7'
+vote_source_repository_ref: 'master'
+vote_source_repository_url: 'https://github.com/LinSol-Ltd/voting-app.git'
+vote_gitlab_webhook_secret: 'glsecret'
+vote_replicas: 1
+vote_image: "{{ app }}-vote"
+vote_image_tag: latest
+vote_fqdn: vote.linsol.co.uk
+vote_build: true
+vote_hpa_min_replicas: 1
+vote_hpa_max_replicas: 6
+vote_hpa_target_cpu_utilization_percentage: 50
+vote_memory_limit: "256Mi"
