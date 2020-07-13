@@ -36,10 +36,10 @@ quay_push_user: 'we_dont_want_to_push_from_dev'
 #
 vote_build: true
 vote_source_repository_ref: 'master'
-vote_source_repository_url: 'https://gitlab.com/voting/voting.git'
+vote_source_repository_url: 'https://github.com/LinSol-Ltd/voting-app.git'
 vote_replicas: 1
 vote_image: "{{ app }}-vote:latest"
-vote_fqdn: 'api-dev.voting.net'
+vote_fqdn: 'vote-dev.linsol.co.uk'
 #api_gitlab_webhook_secret_key: "{{ vault_api_gitlab_webhook_secret_key }}"
 
 #
