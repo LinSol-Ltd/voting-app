@@ -108,7 +108,7 @@
               type: Generic
             - github:
                 secretReference:
-                name: vote-github-webhook-secret
+                  name: vote-github-webhook-secret
               type: GitHub  
             - imageChange:
                 from:
